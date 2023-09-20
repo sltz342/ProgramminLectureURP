@@ -17,6 +17,14 @@ public static class InputManager
         
         };
 
+        controls.Game.Shoot.performed += ctx => 
+        {
+
+            myPlayer.spawnBoxOnJ();
+
+        };
+
+
         controls.Permanent.Enable();
 
 

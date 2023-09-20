@@ -7,8 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
 
     private Vector3 _moveDir;
-
-
+    public GameObject cubePrefab;
 
 
     // Start is called before the first frame update
@@ -31,6 +30,13 @@ public class Player : MonoBehaviour
     {
         _moveDir = newDirection;
 
+
+    }
+
+    public void spawnBoxOnJ()
+    {
+
+        Instantiate(cubePrefab, transform.position, Quaternion.identity);
 
     }
 }

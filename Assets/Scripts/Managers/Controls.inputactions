@@ -16,12 +16,12 @@
                 },
                 {
                     "name": "Shoot",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "19a38805-f590-4475-82fa-889903fecf0a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -116,7 +116,7 @@
                 {
                     "name": "",
                     "id": "f7c7dbcf-c5fe-4451-a9eb-e7bcca4cd9a6",
-                    "path": "",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
