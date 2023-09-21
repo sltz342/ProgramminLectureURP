@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,6 @@ public class Player : MonoBehaviour
 
     private Vector3 _moveDir;
     public GameObject cubePrefab;
-
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     {
         transform.position +=  (speed * Time.deltaTime * _moveDir);
 
-
+        
     }
     public void setMovementDirection(Vector3 newDirection)
     {
@@ -35,8 +35,11 @@ public class Player : MonoBehaviour
 
     public void spawnBoxOnJ()
     {
-
-        Instantiate(cubePrefab, transform.position, Quaternion.identity);
-
+        
+        cubePrefab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cubePrefab.transform.position = new Vector3(0, 0, 0);
+            cubePrefab.AddComponent<Player>();
+            cubePrefab.name = "MUSIC MAKE YOU LOSE CONTROl";
+        
     }
 }
