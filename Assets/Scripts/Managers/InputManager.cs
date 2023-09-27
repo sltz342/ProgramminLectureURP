@@ -24,6 +24,11 @@ public static class InputManager
 
         };
 
+        controls.Game.Jump.started += ctx =>
+        {
+            myPlayer.jump();
+        };
+
 
         controls.Permanent.Enable();
 
