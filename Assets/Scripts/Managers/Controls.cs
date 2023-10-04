@@ -53,6 +53,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""69945fd5-5c34-4da2-a723-cf053e763f90"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShootWIthMouse"",
+                    ""type"": ""Button"",
+                    ""id"": ""46f2ff2f-c204-4417-a6fa-5fe4ccaeeb8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +183,39 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c1a9f4d-8b67-4771-918e-c871f8210f78"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b8befb1-bbf8-421a-8604-dc25193563b4"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67c33323-f24f-46cc-8b08-a98ca24a1dd1"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootWIthMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -232,6 +283,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Game_Movement = m_Game.FindAction("Movement", throwIfNotFound: true);
         m_Game_Shoot = m_Game.FindAction("Shoot", throwIfNotFound: true);
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
+        m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
+        m_Game_ShootWIthMouse = m_Game.FindAction("ShootWIthMouse", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -302,6 +355,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Movement;
     private readonly InputAction m_Game_Shoot;
     private readonly InputAction m_Game_Jump;
+    private readonly InputAction m_Game_Look;
+    private readonly InputAction m_Game_ShootWIthMouse;
     public struct GameActions
     {
         private @Controls m_Wrapper;
@@ -309,6 +364,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Game_Movement;
         public InputAction @Shoot => m_Wrapper.m_Game_Shoot;
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
+        public InputAction @Look => m_Wrapper.m_Game_Look;
+        public InputAction @ShootWIthMouse => m_Wrapper.m_Game_ShootWIthMouse;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,6 +384,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @ShootWIthMouse.started += instance.OnShootWIthMouse;
+            @ShootWIthMouse.performed += instance.OnShootWIthMouse;
+            @ShootWIthMouse.canceled += instance.OnShootWIthMouse;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -340,6 +403,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @ShootWIthMouse.started -= instance.OnShootWIthMouse;
+            @ShootWIthMouse.performed -= instance.OnShootWIthMouse;
+            @ShootWIthMouse.canceled -= instance.OnShootWIthMouse;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -454,6 +523,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnShootWIthMouse(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

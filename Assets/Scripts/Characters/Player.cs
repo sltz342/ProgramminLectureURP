@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -20,7 +21,23 @@ public class Player : MonoBehaviour
     private Vector3 _moveDir;
     public GameObject cubePrefab;
 
-    // Start is called before the first frame update
+    //Vars for lect 5
+    [SerializeField, Range(1, 20)] private float mouseSensX;
+    [SerializeField, Range(1, 20)] private float mouseSensY;
+
+    private Vector2 currentRotation;
+    [SerializeField] private Transform LookatPoint;
+
+    [SerializeField, Range(0, 180)] private float minViewAngle;
+    [SerializeField, Range(0, 180)] private float maxViewAngle;
+
+    //For shooting
+
+    [SerializeField] private Rigidbody bulletPrefab;
+    [SerializeField] private float bulleForce;
+
+
+
     void Start()
     {
         InputManager.Init(this);
@@ -65,6 +82,33 @@ public class Player : MonoBehaviour
 
     
     }
+
+    public void shootFire()
+    {
+        Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+        currentProjectile.AddForce(LookatPoint.forward * bulleForce, ForceMode.Impulse);
+
+        Destroy(currentProjectile.gameObject, 4);
+    }
+
+    public void setLookDirection(Vector3 readValue)
+    {
+        //Controls rotation angles
+        currentRotation.x += readValue.x * Time.deltaTime * mouseSensX;
+        currentRotation.y += readValue.y * Time.deltaTime * mouseSensY;
+
+        //Controls looking left and right
+        transform.rotation = Quaternion.AngleAxis(currentRotation.x, Vector3.up);
+        LookatPoint.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector3.right);
+
+        //Clamps 
+        currentRotation.y = Mathf.Clamp(currentRotation.y, minViewAngle, maxViewAngle);
+
+        //
+        LookatPoint.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector2.right);
+    }
+
     private void CheckGround()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, depth, groundLayers);

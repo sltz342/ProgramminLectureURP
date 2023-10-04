@@ -29,6 +29,15 @@ public static class InputManager
             myPlayer.jump();
         };
 
+        controls.Game.Look.performed += ctx =>
+        {
+            myPlayer.setLookDirection(ctx.ReadValue<Vector2>());
+        };
+
+        controls.Game.ShootWIthMouse.performed += ctx =>
+        {
+            myPlayer.shootFire();
+        };
 
         controls.Permanent.Enable();
 
