@@ -26,17 +26,19 @@ public class Player : MonoBehaviour
     [SerializeField, Range(1, 20)] private float mouseSensY;
 
     private Vector2 currentRotation;
-    [SerializeField] private Transform LookatPoint;
+    [SerializeField] private Transform followTarget;
 
-    [SerializeField, Range(0, 180)] private float minViewAngle;
-    [SerializeField, Range(0, 180)] private float maxViewAngle;
+    [SerializeField, Range(-90, 0)] private float minViewAngle;
+    [SerializeField, Range(0, 90)] private float maxViewAngle;
 
     //For shooting
 
     [SerializeField] private Rigidbody bulletPrefab;
-    [SerializeField] private float bulleForce;
+    [SerializeField] private float bulletForce;
 
-
+    //For spawning coins
+    [SerializeField] private GameObject coinPrefab;
+    private int coinsCollected = 0;
 
     void Start()
     {
@@ -50,10 +52,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position +=  (speed * Time.deltaTime * _moveDir);
+        transform.position += transform.rotation * (speed * Time.deltaTime * _moveDir);
         CheckGround();
-        
+
     }
+
     public void setMovementDirection(Vector3 newDirection)
     {
         _moveDir = newDirection;
@@ -63,20 +66,15 @@ public class Player : MonoBehaviour
 
     public void spawnBoxOnJ()
     {
-        
-        cubePrefab = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cubePrefab.transform.position = new Vector3(0, 0, 0);
-        cubePrefab.AddComponent<Rigidbody>();
-        cubePrefab.AddComponent<BoxCollider>();
-        cubePrefab.name = "MUSIC MAKE YOU LOSE CONTROl";
-        
+        Vector3 coinSpawn = new Vector3(0, 2, 0);
+        GameObject newCoin = Instantiate(coinPrefab, coinSpawn, Quaternion.identity);
+        Destroy(newCoin.gameObject, 4);
     }
 
     public void jump() {
         Debug.Log("Jump called");
         if(isGrounded )
         {
-            Debug.Log("this bitch jumped");
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
@@ -87,12 +85,12 @@ public class Player : MonoBehaviour
     {
         Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-        currentProjectile.AddForce(LookatPoint.forward * bulleForce, ForceMode.Impulse);
+        currentProjectile.AddForce(followTarget.forward * bulletForce, ForceMode.Impulse);
 
         Destroy(currentProjectile.gameObject, 4);
     }
 
-    public void setLookDirection(Vector3 readValue)
+    public void setLookDirection(Vector2 readValue)
     {
         //Controls rotation angles
         currentRotation.x += readValue.x * Time.deltaTime * mouseSensX;
@@ -100,15 +98,21 @@ public class Player : MonoBehaviour
 
         //Controls looking left and right
         transform.rotation = Quaternion.AngleAxis(currentRotation.x, Vector3.up);
-        LookatPoint.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector3.right);
+        followTarget.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector3.right);
 
         //Clamps 
         currentRotation.y = Mathf.Clamp(currentRotation.y, minViewAngle, maxViewAngle);
 
         //
-        LookatPoint.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector2.right);
+        followTarget.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector2.right);
     }
-
+    
+    public void GotCoin(int i)
+    {
+        coinsCollected = coinsCollected + i;
+        Debug.Log("You have collected " + coinsCollected + " coins so far!");
+    }
+    
     private void CheckGround()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, depth, groundLayers);
@@ -123,5 +127,15 @@ public class Player : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector3.down * GetComponent<Collider>().bounds.size.y, Color.red, 0, false);
     }
+    
+    
+    
+    
+    cubePrefab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cubePrefab.transform.position = new Vector3(0, 0, 0);
+        cubePrefab.AddComponent<Rigidbody>();
+        cubePrefab.AddComponent<BoxCollider>();
+        cubePrefab.name = "MUSIC MAKE YOU LOSE CONTROl";
      */
+    
 }

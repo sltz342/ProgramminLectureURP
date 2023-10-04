@@ -34,7 +34,7 @@ public static class InputManager
             myPlayer.setLookDirection(ctx.ReadValue<Vector2>());
         };
 
-        controls.Game.ShootWIthMouse.performed += ctx =>
+        controls.Game.ShootWIthMouse.started += ctx =>
         {
             myPlayer.shootFire();
         };
