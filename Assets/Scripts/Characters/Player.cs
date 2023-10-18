@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {   //Vars for speeds
@@ -40,6 +42,24 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject coinPrefab;
     private int coinsCollected = 0;
 
+    [Header("Player UI")]
+    [SerializeField] private Image healthBar;
+    [SerializeField] private TextMeshProUGUI shotsFired;
+
+
+    [SerializeField] private float maxHealth;
+    private int shotsFiredCounter;
+    private float _health;
+
+    private float Health
+    {
+        get => _health;
+        set { 
+            _health = value;
+            healthBar.fillAmount = _health / maxHealth;
+        }
+    }
+
     void Start()
     {
         InputManager.Init(this);
@@ -47,6 +67,8 @@ public class Player : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         depth = GetComponent<Collider>().bounds.size.y;
+
+        Health = maxHealth;
     }
 
     // Update is called once per frame
@@ -55,6 +77,7 @@ public class Player : MonoBehaviour
         transform.position += transform.rotation * (speed * Time.deltaTime * _moveDir);
         CheckGround();
 
+        Health -= Time.deltaTime * 3;
     }
 
     public void setMovementDirection(Vector3 newDirection)
@@ -86,6 +109,11 @@ public class Player : MonoBehaviour
         Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
         currentProjectile.AddForce(followTarget.forward * bulletForce, ForceMode.Impulse);
+
+
+        shotsFiredCounter++;
+
+        shotsFired.text = shotsFiredCounter.ToString();
 
         Destroy(currentProjectile.gameObject, 4);
     }
