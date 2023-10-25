@@ -864,6 +864,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656500692}
   m_CullTransparentMesh: 1
+--- !u!1 &704815052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 704815054}
+  - component: {fileID: 704815053}
+  m_Layer: 0
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &704815053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704815052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc24a774d05aeeb4caeab2a7810946ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenAttacks: 0.2
+  chargeUpTime: 0.1
+  minChargePercent: 0.2
+  isFullyAutomatic: 1
+  projectile:
+  - {fileID: 1698400203044953138, guid: 475133ce9da65264485b44ba504defb2, type: 3}
+  - {fileID: 1985383646328569564, guid: 1ddf84b4b88a85544b96c27274e5958d, type: 3}
+  - {fileID: 5645450135428596833, guid: f0cb689d43a510c45ac385900af69492, type: 3}
+  force: 50
+--- !u!4 &704815054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704815052}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.0060104, y: 1.77, z: -0.84147966}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1877893698}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &740038333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,6 +1651,7 @@ Transform:
   m_Children:
   - {fileID: 339316130}
   - {fileID: 1001003123}
+  - {fileID: 704815054}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1877893699
@@ -1630,6 +1684,7 @@ MonoBehaviour:
   healthBar: {fileID: 656500694}
   shotsFired: {fileID: 1431662269}
   maxHealth: 100
+  myWeapon: {fileID: 704815053}
 --- !u!54 &1877893700
 Rigidbody:
   m_ObjectHideFlags: 0

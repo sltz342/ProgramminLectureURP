@@ -51,6 +51,8 @@ public class Player : MonoBehaviour
     private int shotsFiredCounter;
     private float _health;
 
+    [SerializeField] private WeaponBase myWeapon;
+
     private float Health
     {
         get => _health;
@@ -104,8 +106,24 @@ public class Player : MonoBehaviour
     
     }
 
+    private bool fireState;
     public void shootFire()
     {
+        fireState = !fireState;
+        if (fireState) myWeapon.StartFiring();
+        else myWeapon.StopFiring();
+
+
+
+
+
+
+
+
+
+
+
+        /*
         Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
         currentProjectile.AddForce(followTarget.forward * bulletForce, ForceMode.Impulse);
@@ -116,6 +134,7 @@ public class Player : MonoBehaviour
         shotsFired.text = shotsFiredCounter.ToString();
 
         Destroy(currentProjectile.gameObject, 4);
+        */
     }
 
     public void setLookDirection(Vector2 readValue)
