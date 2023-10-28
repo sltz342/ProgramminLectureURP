@@ -39,6 +39,11 @@ public static class InputManager
             myPlayer.shootFire();
         };
 
+        controls.Game.Reload.performed += ctx =>
+        {
+            myPlayer.reloadGun();
+        };
+
         controls.Permanent.Enable();
 
 

@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 
 
     [SerializeField] private float maxHealth;
-    private int shotsFiredCounter;
+    private int shotsFiredCounter = 6;
     private float _health;
 
     [SerializeField] private WeaponBase myWeapon;
@@ -65,8 +65,9 @@ public class Player : MonoBehaviour
     void Start()
     {
         InputManager.Init(this);
-        InputManager.GameMode(); 
+        InputManager.GameMode();
 
+        shotsFired.text = "Shots Left: " + shotsFiredCounter;
         rb = GetComponent<Rigidbody>();
         depth = GetComponent<Collider>().bounds.size.y;
 
@@ -109,32 +110,36 @@ public class Player : MonoBehaviour
     private bool fireState;
     public void shootFire()
     {
+        /**
         fireState = !fireState;
         if (fireState) myWeapon.StartFiring();
         else myWeapon.StopFiring();
+        **/
+
+        if (shotsFiredCounter > 0)
+        {
+            Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+            currentProjectile.AddForce(followTarget.forward * bulletForce, ForceMode.Impulse);
 
 
+            shotsFiredCounter--;
 
+            shotsFired.text = "Shots Left: " + shotsFiredCounter;
 
-
-
-
-
-
-
-
-        /*
-        Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-
-        currentProjectile.AddForce(followTarget.forward * bulletForce, ForceMode.Impulse);
-
-
-        shotsFiredCounter++;
-
-        shotsFired.text = shotsFiredCounter.ToString();
-
-        Destroy(currentProjectile.gameObject, 4);
-        */
+            Destroy(currentProjectile.gameObject, 4);
+        }
+        else
+        {
+            shotsFired.text = "No Shots Left!";
+        }
+        
+    }
+    
+    public void reloadGun()
+    {
+        shotsFiredCounter = 6;
+        shotsFired.text = "Reloaded! Shots: " + shotsFiredCounter;
     }
 
     public void setLookDirection(Vector2 readValue)
@@ -184,5 +189,9 @@ public class Player : MonoBehaviour
         cubePrefab.AddComponent<BoxCollider>();
         cubePrefab.name = "MUSIC MAKE YOU LOSE CONTROl";
      */
-    
+    public void getAmmo(int ammoAmount)
+    {
+        shotsFiredCounter += ammoAmount;
+        shotsFired.text = "Ammo Got! Shots: " + shotsFiredCounter;
+    }
 }

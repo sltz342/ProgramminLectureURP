@@ -71,6 +71,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""73d35b30-62c2-4047-89a6-acce0dacbe84"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,6 +225,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""ShootWIthMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf51ec62-0d99-4dc1-8b47-cc5bb0666e2a"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -285,6 +305,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
         m_Game_ShootWIthMouse = m_Game.FindAction("ShootWIthMouse", throwIfNotFound: true);
+        m_Game_Reload = m_Game.FindAction("Reload", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -357,6 +378,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Look;
     private readonly InputAction m_Game_ShootWIthMouse;
+    private readonly InputAction m_Game_Reload;
     public struct GameActions
     {
         private @Controls m_Wrapper;
@@ -366,6 +388,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Look => m_Wrapper.m_Game_Look;
         public InputAction @ShootWIthMouse => m_Wrapper.m_Game_ShootWIthMouse;
+        public InputAction @Reload => m_Wrapper.m_Game_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -390,6 +413,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ShootWIthMouse.started += instance.OnShootWIthMouse;
             @ShootWIthMouse.performed += instance.OnShootWIthMouse;
             @ShootWIthMouse.canceled += instance.OnShootWIthMouse;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -409,6 +435,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ShootWIthMouse.started -= instance.OnShootWIthMouse;
             @ShootWIthMouse.performed -= instance.OnShootWIthMouse;
             @ShootWIthMouse.canceled -= instance.OnShootWIthMouse;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -525,6 +554,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnShootWIthMouse(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
