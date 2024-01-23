@@ -53,6 +53,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private WeaponBase myWeapon;
 
+    [SerializeField] private GameObject ReversalRed;
+    private GameObject cursedRed;
+
     private float Health
     {
         get => _health;
@@ -81,6 +84,17 @@ public class Player : MonoBehaviour
         CheckGround();
 
         Health -= Time.deltaTime * 3;
+
+        
+    }
+
+    void FixedUpdate()
+    {
+
+
+
+
+
     }
 
     public void setMovementDirection(Vector3 newDirection)
@@ -94,7 +108,7 @@ public class Player : MonoBehaviour
     {
         Vector3 coinSpawn = new Vector3(0, 2, 0);
         GameObject newCoin = Instantiate(coinPrefab, coinSpawn, Quaternion.identity);
-        Destroy(newCoin.gameObject, 4);
+        Destroy(newCoin.gameObject, 10);
     }
 
     public void jump() {
@@ -118,6 +132,7 @@ public class Player : MonoBehaviour
 
         if (shotsFiredCounter > 0)
         {
+            /**
             Rigidbody currentProjectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
             currentProjectile.AddForce(followTarget.forward * bulletForce, ForceMode.Impulse);
@@ -128,6 +143,14 @@ public class Player : MonoBehaviour
             shotsFired.text = "Shots Left: " + shotsFiredCounter;
 
             Destroy(currentProjectile.gameObject, 4);
+            **/
+
+
+            cursedRed = Instantiate(ReversalRed, transform.position, transform.rotation);
+            cursedRed.gameObject.transform.parent = transform;
+            shotsFiredCounter--;
+            shotsFired.text = "Shots Left: " + shotsFiredCounter;
+            Destroy(cursedRed.gameObject, 10);
         }
         else
         {
